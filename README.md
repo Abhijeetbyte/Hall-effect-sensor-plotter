@@ -28,3 +28,33 @@ A python code, to plot the incoming data from Hall effect instrument, provides a
 
 ### Adjustments:
 - Adjust the `sensorValue > 1` threshold based on sensor characteristics to correctly determine north or south pole.
+
+
+## Python Plotting Code
+
+1. **Imports and Serial Initialization:**
+   - Imports necessary libraries (`serial`, `tkinter`, `matplotlib`) and initializes the serial port (`ser`) with specific settings (`'COM3'` and `9600` baud rate).
+
+2. **Tkinter GUI Setup:**
+   - Creates a Tkinter window (`root`) with a title and size (`600x800` pixels).
+   - Adds a label (`instruction_label`) for user instructions.
+   - Sets up a dropdown menu (`com_ports`) to select COM ports.
+   - Displays a status label (`status_label`) indicating the current state.
+
+3. **Matplotlib Plot Setup:**
+   - Creates a Matplotlib figure (`fig`) with a specific size and DPI.
+   - Adds a subplot (`ax`) with labels and a title for the Hall Effect sensor plot.
+   - Configures grid lines (`ax.grid(True)`) and a red dashed line at y=0 (`ax.axhline(...)`).
+   - Initializes an empty plot (`line1`) with legend (`ax.legend()`) and embeds it into a Tkinter canvas (`canvas`).
+
+4. **Data Handling Functions:**
+   - `update_plot()`: Clears the current plot, updates it with new sensor data (`sensor_values` and `count_values`), and redraws the canvas (`canvas.draw()`).
+   - `update_status_and_plot()`: Checks for incoming data from `ser`, processes it, updates the status label, adds valid data to lists for plotting, and calls `update_plot()` to refresh the plot.
+   - Handles exceptions (`ValueError`) if data format is invalid and prints error messages to console.
+
+5. **Serial Port Management and GUI Controls:**
+   - `close_port()`: Closes the serial port (`ser`) if it's open and destroys the Tkinter window (`root`) to exit the application.
+   - Creates a close button (`close_button`) that calls `close_port()` when clicked, allowing the user to stop reading data and close the program.
+
+6. **Main Loop (`root.mainloop()`):**
+   - Starts the Tkinter main loop to handle events and maintain the GUI application.
