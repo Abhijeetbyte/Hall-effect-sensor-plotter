@@ -1,6 +1,9 @@
 # Hall-effect-sensor-plotter
 A python code, to plot the incoming data from Hall effect instrument, provides a better way to visualize the magnetic field density
 
+![image](https://github.com/user-attachments/assets/cd224952-6bf7-408e-80b2-48ecd0c9aa3b)
+
+
 ## Instrument Code:
 
 - **Variables Declaration:**
@@ -58,3 +61,22 @@ A python code, to plot the incoming data from Hall effect instrument, provides a
 
 6. **Main Loop (`root.mainloop()`):**
    - Starts the Tkinter main loop to handle events and maintain the GUI application.
+
+
+Certainly! Here's a revised version of the TO DO's section suitable for GitHub:
+
+
+## TO DO's:
+
+1. **Implement Ratiometric Hall Effect Sensor:**
+   - Integrate a ratiometric Hall effect sensor to enhance accuracy in measuring magnetic field intensity. Hall effect sensor with a wide measurement range and high sensitivity. Ratiometric Hall effect sensors are often preferred because they provide an output voltage proportional to the magnetic field strength, making them suitable for accurate measurements across a wide range.
+   - Ensure proper calibration procedures to standardize measurements for consistent results.
+
+2. **Upgrade from 8-bit Microcontroller:**
+   - Replace the current 8-bit microcontroller setup with a more capable system to handle increased sensor data resolution.
+   - Enable higher precision in capturing and processing magnetic field data.
+
+3. **Current Sensor Setup (Example):**
+   - Currently using the `A3144` Hall effect sensor.
+   - Provides basic detection of magnetic poles but lacks accuracy for precise measurements.
+
