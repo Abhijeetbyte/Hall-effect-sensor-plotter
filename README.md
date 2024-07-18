@@ -1,7 +1,7 @@
 # Hall-effect-sensor-plotter
 A python code, to plot the incoming data from Hall effect instrument, provides a better way to visualize the magnetic field density
 
-![image](https://github.com/user-attachments/assets/cd224952-6bf7-408e-80b2-48ecd0c9aa3b)
+![image](https://github.com/user-attachments/assets/77198d2d-3fe8-4cc5-845c-b7cb0eb69ed3)
 
 
 ## Instrument Code:
@@ -49,6 +49,7 @@ A python code, to plot the incoming data from Hall effect instrument, provides a
    - Adds a subplot (`ax`) with labels and a title for the Hall Effect sensor plot.
    - Configures grid lines (`ax.grid(True)`) and a red dashed line at y=0 (`ax.axhline(...)`).
    - Initializes an empty plot (`line1`) with legend (`ax.legend()`) and embeds it into a Tkinter canvas (`canvas`).
+   - `NavigationToolbar2Tk` which provides a Matplotlib toolbar, provides zoom, pan, and save functionalities,
 
 4. **Data Handling Functions:**
    - `update_plot()`: Clears the current plot, updates it with new sensor data (`sensor_values` and `count_values`), and redraws the canvas (`canvas.draw()`).
