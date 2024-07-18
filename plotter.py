@@ -2,7 +2,7 @@ import serial
 import serial.tools.list_ports
 import tkinter as tk
 from tkinter import ttk
-from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2Tk
 from matplotlib.figure import Figure
 
 # Initialize serial port (replace 'COM3' with your specific COM port)
@@ -13,21 +13,45 @@ root = tk.Tk()
 root.title("Hall Effect Serial Data Receiver")
 root.geometry("600x800")  # Set window size to 600x800 pixels
 
+# Frame for status label
+label_frame = tk.Frame(root)
+label_frame.pack(pady=5)
+
 # Label for instructions
-instruction_label = tk.Label(root, text="Select COM Port and Press Start Button on Instrument...")
-instruction_label.pack(pady=10)
+instruction_label = tk.Label(label_frame, text="Select COM Port and Press Start Button on Instrument...")
+instruction_label.pack(pady=5)
+
+# Frame for COM port selector and close button
+top_frame = tk.Frame(root)
+top_frame.pack(pady=10)
 
 # Dropdown menu for COM ports
 available_ports = serial.tools.list_ports.comports()
-com_ports = ttk.Combobox(root, values=[port.device for port in available_ports])
-com_ports.pack()
+com_ports = ttk.Combobox(top_frame, values=[port.device for port in available_ports])
+com_ports.pack(side=tk.LEFT, padx=10)
+
+# Close button to stop reading and close the program
+def close_port():
+    if ser.is_open:
+        ser.close()  # Close the serial port
+    root.destroy()  # Close the Tkinter window
+
+close_button = tk.Button(top_frame, text="Close", command=close_port)
+close_button.pack(side=tk.RIGHT, padx=10)
+
+# Frame for status label
+status_frame = tk.Frame(root)
+status_frame.pack(pady=10)
 
 # Label to display status
-status_label = tk.Label(root, text="STOPPED", font=("Helvetica", 18))
-status_label.pack(pady=20)
+status_label = tk.Label(status_frame, text="STOPPED", font=("Helvetica", 18))
+status_label.pack()
 
 # Matplotlib plot setup
-fig = Figure(figsize=(5, 6), dpi=100) # Adjust figure size to fit the window
+plot_frame = tk.Frame(root)
+plot_frame.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
+
+fig = Figure(figsize=(5, 6), dpi=100)  # Adjust figure size to fit the window
 ax = fig.add_subplot(111)
 ax.set_xlabel('Count')
 ax.set_ylabel('Sensor Value')
@@ -36,8 +60,13 @@ ax.grid(True)  # Add grid lines
 ax.axhline(y=0, color='red', linestyle='--')  # Make y=0 axis line red and dashed
 line1, = ax.plot([], [], 'o-', label='Sensor Value')
 ax.legend()
-canvas = FigureCanvasTkAgg(fig, master=root)
+canvas = FigureCanvasTkAgg(fig, master=plot_frame)
 canvas.get_tk_widget().pack(fill=tk.BOTH, expand=True)  # Pack canvas to fill entire window
+
+# Add Matplotlib toolbar
+toolbar = NavigationToolbar2Tk(canvas, plot_frame)
+toolbar.update()
+canvas.get_tk_widget().pack()
 
 # Initialize data lists for plotting
 sensor_values = []
@@ -57,6 +86,7 @@ def update_plot():
 
 # Function to update status and plot based on received data
 def update_status_and_plot():
+    global status_label  # Access global status_label
     # Check if there's data available to read from serial port
     if ser.in_waiting > 0:
         # Read the data and decode it from bytes to string
@@ -86,16 +116,6 @@ def update_status_and_plot():
 
 # Start updating status and plot
 update_status_and_plot()
-
-# Function to close the serial port and exit the program
-def close_port():
-    if ser.is_open:
-        ser.close()  # Close the serial port
-    root.destroy()  # Close the Tkinter window
-
-# Close button to stop reading and close the program
-close_button = tk.Button(root, text="Close", command=close_port)
-close_button.pack(pady=10)
 
 # Start Tkinter main loop
 root.mainloop()
